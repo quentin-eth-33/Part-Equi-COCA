@@ -1,0 +1,22 @@
+graph G{
+A[xlabel="1,1,0"];
+B[xlabel="1,0,1"];
+C[xlabel="0,1,1"];
+D[xlabel="1,0,0"];
+E[xlabel="0,1,0"];
+F[xlabel="0,0,1"];
+G[xlabel="1,1,0"];
+H[xlabel="1,0,1"];
+I[xlabel="0,1,1"];
+A--B;
+A--D;
+C--B;
+D--E;
+E--B;
+F--C;
+G--A;
+H--E;
+I--F;
+G--I;
+I--D;
+}
