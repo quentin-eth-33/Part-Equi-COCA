@@ -1,0 +1,110 @@
+\hypertarget{RepartitionReduction_8h}{}\doxysection{include/\+Equitable\+Repartition\+Problem/\+Repartition\+Reduction.h File Reference}
+\label{RepartitionReduction_8h}\index{include/EquitableRepartitionProblem/RepartitionReduction.h@{include/EquitableRepartitionProblem/RepartitionReduction.h}}
+
+
+An implementation of the Coca project for 2023 year. Converts a graph g with players assigning weights to its node to a formula true if and only if it exists a partition of nodes between player so that every player has a connected component which has a high enough score. Provides functions to generate the formula and the necessary variables, alongside function to decode a solution from a model of the formula.  
+
+
+{\ttfamily \#include \char`\"{}Graph.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}Repartition\+Graph.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$z3.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+Z3\+\_\+ast \mbox{\hyperlink{RepartitionReduction_8h_aaf90ce4c5e9326c4d022891430be4563}{repartition\+\_\+reduction}} (Z3\+\_\+context ctx, const \mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Generates a propositional formula satisfiable if and only if there is a partition which satisfies every player and all components are connected. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionReduction_8h_a9d4f012a22fe856b3d98726b36e3c04f}{repartition\+\_\+set\+\_\+partition\+\_\+from\+\_\+model}} (Z3\+\_\+context ctx, Z3\+\_\+model model, \mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Fills the partition in {\ttfamily graph} according to {\ttfamily model}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionReduction_8h_a41f4450dad8d429cde980fb751f3fda7}{repartition\+\_\+print\+\_\+model}} (Z3\+\_\+context ctx, Z3\+\_\+model model, \mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Prints the values of the variables in {\ttfamily model}. {\ttfamily graph} is used to determine which variables exists. {\ttfamily model} should have been obtained through the satisfaction of a formula obtained by repartition\+\_\+reduction on {\ttfamily graph}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+An implementation of the Coca project for 2023 year. Converts a graph g with players assigning weights to its node to a formula true if and only if it exists a partition of nodes between player so that every player has a connected component which has a high enough score. Provides functions to generate the formula and the necessary variables, alongside function to decode a solution from a model of the formula. 
+
+\begin{DoxyAuthor}{Author}
+Vincent Penelle (\href{mailto:vincent.penelle@u-bordeaux.fr}{\texttt{ vincent.\+penelle@u-\/bordeaux.\+fr}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/09-\/22
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Creative Commons 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{RepartitionReduction_8h_a41f4450dad8d429cde980fb751f3fda7}\label{RepartitionReduction_8h_a41f4450dad8d429cde980fb751f3fda7}} 
+\index{RepartitionReduction.h@{RepartitionReduction.h}!repartition\_print\_model@{repartition\_print\_model}}
+\index{repartition\_print\_model@{repartition\_print\_model}!RepartitionReduction.h@{RepartitionReduction.h}}
+\doxysubsubsection{\texorpdfstring{repartition\_print\_model()}{repartition\_print\_model()}}
+{\footnotesize\ttfamily void repartition\+\_\+print\+\_\+model (\begin{DoxyParamCaption}\item[{Z3\+\_\+context}]{ctx,  }\item[{Z3\+\_\+model}]{model,  }\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Prints the values of the variables in {\ttfamily model}. {\ttfamily graph} is used to determine which variables exists. {\ttfamily model} should have been obtained through the satisfaction of a formula obtained by repartition\+\_\+reduction on {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The solver context. \\
+\hline
+{\em model} & A model. \\
+\hline
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+{\ttfamily model} must be a valid model which has a truth value for each variable representing the partition. 
+
+{\ttfamily graph} must be the Repartition\+Graph used to obtain the model. 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{RepartitionReduction_8h_aaf90ce4c5e9326c4d022891430be4563}\label{RepartitionReduction_8h_aaf90ce4c5e9326c4d022891430be4563}} 
+\index{RepartitionReduction.h@{RepartitionReduction.h}!repartition\_reduction@{repartition\_reduction}}
+\index{repartition\_reduction@{repartition\_reduction}!RepartitionReduction.h@{RepartitionReduction.h}}
+\doxysubsubsection{\texorpdfstring{repartition\_reduction()}{repartition\_reduction()}}
+{\footnotesize\ttfamily Z3\+\_\+ast repartition\+\_\+reduction (\begin{DoxyParamCaption}\item[{Z3\+\_\+context}]{ctx,  }\item[{const \mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Generates a propositional formula satisfiable if and only if there is a partition which satisfies every player and all components are connected. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The solver context. \\
+\hline
+{\em graph} & A Repartition\+Graph \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Z3\+\_\+ast The formula. 
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+{\ttfamily graph} must be initialized. 
+\end{DoxyPrecond}
+\mbox{\Hypertarget{RepartitionReduction_8h_a9d4f012a22fe856b3d98726b36e3c04f}\label{RepartitionReduction_8h_a9d4f012a22fe856b3d98726b36e3c04f}} 
+\index{RepartitionReduction.h@{RepartitionReduction.h}!repartition\_set\_partition\_from\_model@{repartition\_set\_partition\_from\_model}}
+\index{repartition\_set\_partition\_from\_model@{repartition\_set\_partition\_from\_model}!RepartitionReduction.h@{RepartitionReduction.h}}
+\doxysubsubsection{\texorpdfstring{repartition\_set\_partition\_from\_model()}{repartition\_set\_partition\_from\_model()}}
+{\footnotesize\ttfamily void repartition\+\_\+set\+\_\+partition\+\_\+from\+\_\+model (\begin{DoxyParamCaption}\item[{Z3\+\_\+context}]{ctx,  }\item[{Z3\+\_\+model}]{model,  }\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Fills the partition in {\ttfamily graph} according to {\ttfamily model}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em ctx} & The solver context. \\
+\hline
+{\em model} & A variable assignment. \\
+\hline
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyPrecond}{Precondition}
+{\ttfamily model} must be a valid model which has a truth value for each variable representing the partition. 
+
+{\ttfamily graph} must be the Repartition\+Graph used to obtain the model. 
+\end{DoxyPrecond}

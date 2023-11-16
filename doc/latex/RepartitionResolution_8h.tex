@@ -1,0 +1,59 @@
+\hypertarget{RepartitionResolution_8h}{}\doxysection{include/\+Equitable\+Repartition\+Problem/\+Repartition\+Resolution.h File Reference}
+\label{RepartitionResolution_8h}\index{include/EquitableRepartitionProblem/RepartitionResolution.h@{include/EquitableRepartitionProblem/RepartitionResolution.h}}
+
+
+Algorithms to solve directly the Equitable Repartition problem.  
+
+
+{\ttfamily \#include \char`\"{}Repartition\+Graph.\+h\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \mbox{\hyperlink{RepartitionResolution_8h_a3fecd9f9c26029df45f3c780ff929e3e}{repartition\+\_\+brute\+\_\+force}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Brute Force Algorithm to solve the repartition problem. If it is solvable, {\ttfamily graph} is modified so at the return of the algorithm, the partition is stored in it. If there is no solution, {\ttfamily graph} has its partition sets to -\/1. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Algorithms to solve directly the Equitable Repartition problem. 
+
+\begin{DoxyAuthor}{Author}
+Vincent Penelle (\href{mailto:vincent.penelle@u-bordeaux.fr}{\texttt{ vincent.\+penelle@u-\/bordeaux.\+fr}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/09-\/22
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Creative Commons. 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{RepartitionResolution_8h_a3fecd9f9c26029df45f3c780ff929e3e}\label{RepartitionResolution_8h_a3fecd9f9c26029df45f3c780ff929e3e}} 
+\index{RepartitionResolution.h@{RepartitionResolution.h}!repartition\_brute\_force@{repartition\_brute\_force}}
+\index{repartition\_brute\_force@{repartition\_brute\_force}!RepartitionResolution.h@{RepartitionResolution.h}}
+\doxysubsubsection{\texorpdfstring{repartition\_brute\_force()}{repartition\_brute\_force()}}
+{\footnotesize\ttfamily bool repartition\+\_\+brute\+\_\+force (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Brute Force Algorithm to solve the repartition problem. If it is solvable, {\ttfamily graph} is modified so at the return of the algorithm, the partition is stored in it. If there is no solution, {\ttfamily graph} has its partition sets to -\/1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if there is a solution. 
+
+false if there is no solution.
+\end{DoxyReturn}
+\begin{DoxyPrecond}{Precondition}
+{\ttfamily graph} must be valid. 
+\end{DoxyPrecond}
+\begin{DoxyPostcond}{Postcondition}
+{\ttfamily if} returns true, the partition of {\ttfamily graph} is a solution to the Equitable Repartition problem. 
+\end{DoxyPostcond}

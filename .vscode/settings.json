@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "repartitiongraph.h": "c",
+        "__locale": "c",
+        "repartitionresolution.h": "c",
+        "time.h": "c"
+    }
+}

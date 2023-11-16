@@ -1,0 +1,46 @@
+\hypertarget{RepartitionGraph_8h_source}{}\doxysection{Repartition\+Graph.\+h}
+\label{RepartitionGraph_8h_source}\index{include/EquitableRepartitionProblem/RepartitionGraph.h@{include/EquitableRepartitionProblem/RepartitionGraph.h}}
+\mbox{\hyperlink{RepartitionGraph_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 }
+\DoxyCodeLine{12 \textcolor{preprocessor}{\#ifndef COCA\_REPARTITIONGRAPH\_H}}
+\DoxyCodeLine{13 \textcolor{preprocessor}{\#define COCA\_REPARTITIONGRAPH\_H}}
+\DoxyCodeLine{14 }
+\DoxyCodeLine{15 \textcolor{preprocessor}{\#include <stdbool.h>}}
+\DoxyCodeLine{16 \textcolor{preprocessor}{\#include "{}\mbox{\hyperlink{Graph_8h}{Graph.h}}"{}}}
+\DoxyCodeLine{17 }
+\DoxyCodeLine{22 \textcolor{keyword}{typedef} \textcolor{keyword}{struct }RepartitionGraph\_s *\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}};}
+\DoxyCodeLine{23 }
+\DoxyCodeLine{32 \mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} \mbox{\hyperlink{RepartitionGraph_8h_a46a6d6770599827badcc769e51b86208}{rg\_initialize}}(\mbox{\hyperlink{structGraph}{Graph}} graph);}
+\DoxyCodeLine{33 }
+\DoxyCodeLine{39 \textcolor{keywordtype}{void} \mbox{\hyperlink{RepartitionGraph_8h_a8f90c7380fbc55e9d7d520db191e1cdf}{rg\_print\_partition}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{40 }
+\DoxyCodeLine{46 \textcolor{keywordtype}{void} \mbox{\hyperlink{RepartitionGraph_8h_aa5f07247595d22100f51ce9fd62c6a29}{rg\_print}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{47 }
+\DoxyCodeLine{53 \textcolor{keywordtype}{void} \mbox{\hyperlink{RepartitionGraph_8h_aeed1750d7d39df26030406467ce2e422}{rg\_delete}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{54 }
+\DoxyCodeLine{61 \textcolor{keywordtype}{int} \mbox{\hyperlink{RepartitionGraph_8h_afa58c6806e06b095c46827bda304102d}{rg\_get\_num\_nodes}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{62 }
+\DoxyCodeLine{69 \textcolor{keywordtype}{int} \mbox{\hyperlink{RepartitionGraph_8h_ac1578e7d85e6ecdbf6372353969602f5}{rg\_get\_num\_edges}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{70 }
+\DoxyCodeLine{80 \textcolor{keywordtype}{bool} \mbox{\hyperlink{RepartitionGraph_8h_a2a5f8355c67f461e730424dc73845625}{rg\_is\_edge}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph, \textcolor{keywordtype}{int} source, \textcolor{keywordtype}{int} target);}
+\DoxyCodeLine{81 }
+\DoxyCodeLine{89 \textcolor{keywordtype}{char} *\mbox{\hyperlink{RepartitionGraph_8h_aafdd79e4d3216d37e9c02ccdee880e0f}{rg\_get\_node\_name}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph, \textcolor{keywordtype}{int} node);}
+\DoxyCodeLine{90 }
+\DoxyCodeLine{97 \textcolor{keywordtype}{int} \mbox{\hyperlink{RepartitionGraph_8h_ac4d2aafe347be39e4ff3f8f92412d601}{rg\_get\_num\_players}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{98 }
+\DoxyCodeLine{107 \textcolor{keywordtype}{int} \mbox{\hyperlink{RepartitionGraph_8h_ae16da7d44fec953dd030f304a18784a6}{rg\_get\_weight}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph, \textcolor{keywordtype}{int} node, \textcolor{keywordtype}{int} player);}
+\DoxyCodeLine{108 }
+\DoxyCodeLine{115 \textcolor{keywordtype}{int} \mbox{\hyperlink{RepartitionGraph_8h_acb8c8a1ebdcfb4a4af1974e17741f483}{rg\_get\_total\_weights}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{116 }
+\DoxyCodeLine{124 \textcolor{keywordtype}{int} \mbox{\hyperlink{RepartitionGraph_8h_ac38523f3c5b1235af0bdaf051d01d478}{rg\_get\_player\_of\_node\_in\_partition}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph, \textcolor{keywordtype}{int} node);}
+\DoxyCodeLine{125 }
+\DoxyCodeLine{133 \textcolor{keywordtype}{void} \mbox{\hyperlink{RepartitionGraph_8h_ac32d86264977cff4f777c0beb9aac7d5}{rg\_set\_player\_of\_node\_partition}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph, \textcolor{keywordtype}{int} node, \textcolor{keywordtype}{int} player);}
+\DoxyCodeLine{134 }
+\DoxyCodeLine{140 \textcolor{keywordtype}{void} \mbox{\hyperlink{RepartitionGraph_8h_af46485535bd7ffffe282d3f7a9b0094c}{rg\_reinitialize\_partition}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph);}
+\DoxyCodeLine{141 }
+\DoxyCodeLine{148 \textcolor{keywordtype}{void} \mbox{\hyperlink{RepartitionGraph_8h_afd6caf1c6269f7f58ab0117eebc76a54}{rg\_create\_dot}}(\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{RepartitionGraph}} graph, \textcolor{keywordtype}{char} *name);}
+\DoxyCodeLine{149 }
+\DoxyCodeLine{150 \textcolor{preprocessor}{\#endif}}
+
+\end{DoxyCode}

@@ -1,0 +1,343 @@
+\hypertarget{RepartitionGraph_8h}{}\doxysection{include/\+Equitable\+Repartition\+Problem/\+Repartition\+Graph.h File Reference}
+\label{RepartitionGraph_8h}\index{include/EquitableRepartitionProblem/RepartitionGraph.h@{include/EquitableRepartitionProblem/RepartitionGraph.h}}
+
+
+Structure to a graph with weights for several players and an assignation of each node to each player.  
+
+
+{\ttfamily \#include $<$stdbool.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}Graph.\+h\char`\"{}}\newline
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}\label{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}} 
+typedef struct Repartition\+Graph\+\_\+s $\ast$ {\bfseries Repartition\+Graph}
+\begin{DoxyCompactList}\small\item\em The struct containing a graph, a weight for each player and each node, and a repartition of node to each player. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} \mbox{\hyperlink{RepartitionGraph_8h_a46a6d6770599827badcc769e51b86208}{rg\+\_\+initialize}} (\mbox{\hyperlink{structGraph}{Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Initializes a Repartition\+Graph from a \mbox{\hyperlink{structGraph}{Graph}} for use in the functions. Parses the parameters to find the number of players and the weights each player associates to each node. Initializes the partition as empty, i.\+e. all nodes are associated with dummy player -\/1. The graph is NOT copied (as it is not supposed to be modified). \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionGraph_8h_a8f90c7380fbc55e9d7d520db191e1cdf}{rg\+\_\+print\+\_\+partition}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Printer function to display the partition of {\ttfamily graph}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionGraph_8h_aa5f07247595d22100f51ce9fd62c6a29}{rg\+\_\+print}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Printer function to display information about {\ttfamily graph} in input. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionGraph_8h_aeed1750d7d39df26030406467ce2e422}{rg\+\_\+delete}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Deallocates memory used by a {\ttfamily graph} (what is allocated by rg\+\_\+initialize). Warning\+: does NOT deallocate the \mbox{\hyperlink{structGraph}{Graph}} inside the {\ttfamily graph}. The \mbox{\hyperlink{structGraph}{Graph}} must be deallocated with adequate function from \mbox{\hyperlink{Graph_8h}{Graph.\+h}}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RepartitionGraph_8h_afa58c6806e06b095c46827bda304102d}{rg\+\_\+get\+\_\+num\+\_\+nodes}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Returns the number of nodes of {\ttfamily graph}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RepartitionGraph_8h_ac1578e7d85e6ecdbf6372353969602f5}{rg\+\_\+get\+\_\+num\+\_\+edges}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Returns the number of edges of {\ttfamily graph}. \end{DoxyCompactList}\item 
+bool \mbox{\hyperlink{RepartitionGraph_8h_a2a5f8355c67f461e730424dc73845625}{rg\+\_\+is\+\_\+edge}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph, int source, int target)
+\begin{DoxyCompactList}\small\item\em Gets if ({\ttfamily source},{\ttfamily target}) is an edge in {\ttfamily graph}. \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{RepartitionGraph_8h_aafdd79e4d3216d37e9c02ccdee880e0f}{rg\+\_\+get\+\_\+node\+\_\+name}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph, int node)
+\begin{DoxyCompactList}\small\item\em Gets the name of {\ttfamily node} in {\ttfamily graph}. The name is what appears in the .dot file, while its number is local to this program. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RepartitionGraph_8h_ac4d2aafe347be39e4ff3f8f92412d601}{rg\+\_\+get\+\_\+num\+\_\+players}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Gets the number of players in the problem of Equitable Repartition on {\ttfamily graph}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RepartitionGraph_8h_ae16da7d44fec953dd030f304a18784a6}{rg\+\_\+get\+\_\+weight}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph, int node, int player)
+\begin{DoxyCompactList}\small\item\em Gets the weight that {\ttfamily player} associates to {\ttfamily node} in {\ttfamily graph}. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RepartitionGraph_8h_acb8c8a1ebdcfb4a4af1974e17741f483}{rg\+\_\+get\+\_\+total\+\_\+weights}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Gets the sum of all weights of a player. This weight is supposed to be the same for every player. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{RepartitionGraph_8h_ac38523f3c5b1235af0bdaf051d01d478}{rg\+\_\+get\+\_\+player\+\_\+of\+\_\+node\+\_\+in\+\_\+partition}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph, int node)
+\begin{DoxyCompactList}\small\item\em Gets which player is associated with {\ttfamily node} in {\ttfamily graph}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionGraph_8h_ac32d86264977cff4f777c0beb9aac7d5}{rg\+\_\+set\+\_\+player\+\_\+of\+\_\+node\+\_\+partition}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph, int node, int player)
+\begin{DoxyCompactList}\small\item\em Sets {\ttfamily player} as the owner of {\ttfamily node} in {\ttfamily graph}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionGraph_8h_af46485535bd7ffffe282d3f7a9b0094c}{rg\+\_\+reinitialize\+\_\+partition}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph)
+\begin{DoxyCompactList}\small\item\em Reinitializes all nodes of {\ttfamily graph} to be held by dummy player -\/1. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{RepartitionGraph_8h_afd6caf1c6269f7f58ab0117eebc76a54}{rg\+\_\+create\+\_\+dot}} (\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} graph, char $\ast$name)
+\begin{DoxyCompactList}\small\item\em Writes a dot file named \texorpdfstring{$<$}{<}{\ttfamily name\texorpdfstring{$>$}{>}}.dot representing {\ttfamily graph} with partition information. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Structure to a graph with weights for several players and an assignation of each node to each player. 
+
+\begin{DoxyAuthor}{Author}
+Vincent Penelle (\href{mailto:vincent.penelle@u-bordeaux.fr}{\texttt{ vincent.\+penelle@u-\/bordeaux.\+fr}}) 
+\end{DoxyAuthor}
+\begin{DoxyVersion}{Version}
+1 
+\end{DoxyVersion}
+\begin{DoxyDate}{Date}
+2023-\/09-\/20
+\end{DoxyDate}
+\begin{DoxyCopyright}{Copyright}
+Creative Commons. 
+\end{DoxyCopyright}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{RepartitionGraph_8h_afd6caf1c6269f7f58ab0117eebc76a54}\label{RepartitionGraph_8h_afd6caf1c6269f7f58ab0117eebc76a54}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_create\_dot@{rg\_create\_dot}}
+\index{rg\_create\_dot@{rg\_create\_dot}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_create\_dot()}{rg\_create\_dot()}}
+{\footnotesize\ttfamily void rg\+\_\+create\+\_\+dot (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph,  }\item[{char $\ast$}]{name }\end{DoxyParamCaption})}
+
+
+
+Writes a dot file named \texorpdfstring{$<$}{<}{\ttfamily name\texorpdfstring{$>$}{>}}.dot representing {\ttfamily graph} with partition information. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+{\em name} & A name of file. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{RepartitionGraph_8h_aeed1750d7d39df26030406467ce2e422}\label{RepartitionGraph_8h_aeed1750d7d39df26030406467ce2e422}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_delete@{rg\_delete}}
+\index{rg\_delete@{rg\_delete}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_delete()}{rg\_delete()}}
+{\footnotesize\ttfamily void rg\+\_\+delete (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Deallocates memory used by a {\ttfamily graph} (what is allocated by rg\+\_\+initialize). Warning\+: does NOT deallocate the \mbox{\hyperlink{structGraph}{Graph}} inside the {\ttfamily graph}. The \mbox{\hyperlink{structGraph}{Graph}} must be deallocated with adequate function from \mbox{\hyperlink{Graph_8h}{Graph.\+h}}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{RepartitionGraph_8h_aafdd79e4d3216d37e9c02ccdee880e0f}\label{RepartitionGraph_8h_aafdd79e4d3216d37e9c02ccdee880e0f}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_node\_name@{rg\_get\_node\_name}}
+\index{rg\_get\_node\_name@{rg\_get\_node\_name}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_node\_name()}{rg\_get\_node\_name()}}
+{\footnotesize\ttfamily char $\ast$ rg\+\_\+get\+\_\+node\+\_\+name (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph,  }\item[{int}]{node }\end{DoxyParamCaption})}
+
+
+
+Gets the name of {\ttfamily node} in {\ttfamily graph}. The name is what appears in the .dot file, while its number is local to this program. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+{\em node} & A node \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+char$\ast$ Its name. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_ac1578e7d85e6ecdbf6372353969602f5}\label{RepartitionGraph_8h_ac1578e7d85e6ecdbf6372353969602f5}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_num\_edges@{rg\_get\_num\_edges}}
+\index{rg\_get\_num\_edges@{rg\_get\_num\_edges}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_num\_edges()}{rg\_get\_num\_edges()}}
+{\footnotesize\ttfamily int rg\+\_\+get\+\_\+num\+\_\+edges (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Returns the number of edges of {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Its number of edges. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_afa58c6806e06b095c46827bda304102d}\label{RepartitionGraph_8h_afa58c6806e06b095c46827bda304102d}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_num\_nodes@{rg\_get\_num\_nodes}}
+\index{rg\_get\_num\_nodes@{rg\_get\_num\_nodes}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_num\_nodes()}{rg\_get\_num\_nodes()}}
+{\footnotesize\ttfamily int rg\+\_\+get\+\_\+num\+\_\+nodes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Returns the number of nodes of {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int Its number of nodes. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_ac4d2aafe347be39e4ff3f8f92412d601}\label{RepartitionGraph_8h_ac4d2aafe347be39e4ff3f8f92412d601}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_num\_players@{rg\_get\_num\_players}}
+\index{rg\_get\_num\_players@{rg\_get\_num\_players}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_num\_players()}{rg\_get\_num\_players()}}
+{\footnotesize\ttfamily int rg\+\_\+get\+\_\+num\+\_\+players (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Gets the number of players in the problem of Equitable Repartition on {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The number of players. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_ac38523f3c5b1235af0bdaf051d01d478}\label{RepartitionGraph_8h_ac38523f3c5b1235af0bdaf051d01d478}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_player\_of\_node\_in\_partition@{rg\_get\_player\_of\_node\_in\_partition}}
+\index{rg\_get\_player\_of\_node\_in\_partition@{rg\_get\_player\_of\_node\_in\_partition}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_player\_of\_node\_in\_partition()}{rg\_get\_player\_of\_node\_in\_partition()}}
+{\footnotesize\ttfamily int rg\+\_\+get\+\_\+player\+\_\+of\+\_\+node\+\_\+in\+\_\+partition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph,  }\item[{int}]{node }\end{DoxyParamCaption})}
+
+
+
+Gets which player is associated with {\ttfamily node} in {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+{\em node} & A node. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The player associated to {\ttfamily node}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_acb8c8a1ebdcfb4a4af1974e17741f483}\label{RepartitionGraph_8h_acb8c8a1ebdcfb4a4af1974e17741f483}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_total\_weights@{rg\_get\_total\_weights}}
+\index{rg\_get\_total\_weights@{rg\_get\_total\_weights}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_total\_weights()}{rg\_get\_total\_weights()}}
+{\footnotesize\ttfamily int rg\+\_\+get\+\_\+total\+\_\+weights (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Gets the sum of all weights of a player. This weight is supposed to be the same for every player. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The sum of all weights fo a player. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_ae16da7d44fec953dd030f304a18784a6}\label{RepartitionGraph_8h_ae16da7d44fec953dd030f304a18784a6}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_get\_weight@{rg\_get\_weight}}
+\index{rg\_get\_weight@{rg\_get\_weight}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_get\_weight()}{rg\_get\_weight()}}
+{\footnotesize\ttfamily int rg\+\_\+get\+\_\+weight (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph,  }\item[{int}]{node,  }\item[{int}]{player }\end{DoxyParamCaption})}
+
+
+
+Gets the weight that {\ttfamily player} associates to {\ttfamily node} in {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+{\em node} & A node. \\
+\hline
+{\em player} & A player. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The weight associated by {\ttfamily player} to {\ttfamily node}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_a46a6d6770599827badcc769e51b86208}\label{RepartitionGraph_8h_a46a6d6770599827badcc769e51b86208}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_initialize@{rg\_initialize}}
+\index{rg\_initialize@{rg\_initialize}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_initialize()}{rg\_initialize()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}} rg\+\_\+initialize (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structGraph}{Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Initializes a Repartition\+Graph from a \mbox{\hyperlink{structGraph}{Graph}} for use in the functions. Parses the parameters to find the number of players and the weights each player associates to each node. Initializes the partition as empty, i.\+e. all nodes are associated with dummy player -\/1. The graph is NOT copied (as it is not supposed to be modified). 
+
+\begin{DoxyPrecond}{Precondition}
+All nodes of graph must have parameter xlabel set, and the value of xlabel must be a list of integers separated with \textquotesingle{},\textquotesingle{} and might be enclosed in \textquotesingle{}"{}\textquotesingle{} (it is compulsory for the dot format to be analyzed correctly). All such lists must be of the same size. If not, the program will crash or have unpredictable behaviors. 
+\end{DoxyPrecond}
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & Tha \mbox{\hyperlink{structGraph}{Graph}} that is the input of the problem. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Repartition\+Graph The structure Repartition\+Graph described above. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_a2a5f8355c67f461e730424dc73845625}\label{RepartitionGraph_8h_a2a5f8355c67f461e730424dc73845625}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_is\_edge@{rg\_is\_edge}}
+\index{rg\_is\_edge@{rg\_is\_edge}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_is\_edge()}{rg\_is\_edge()}}
+{\footnotesize\ttfamily bool rg\+\_\+is\+\_\+edge (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph,  }\item[{int}]{source,  }\item[{int}]{target }\end{DoxyParamCaption})}
+
+
+
+Gets if ({\ttfamily source},{\ttfamily target}) is an edge in {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+{\em source} & A node. \\
+\hline
+{\em target} & A node. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if ({\ttfamily source},{\ttfamily target}) is an edge in {\ttfamily graph}. 
+
+false if ({\ttfamily source},{\ttfamily target}) is not an edge in {\ttfamily graph}. 
+\end{DoxyReturn}
+\mbox{\Hypertarget{RepartitionGraph_8h_aa5f07247595d22100f51ce9fd62c6a29}\label{RepartitionGraph_8h_aa5f07247595d22100f51ce9fd62c6a29}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_print@{rg\_print}}
+\index{rg\_print@{rg\_print}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_print()}{rg\_print()}}
+{\footnotesize\ttfamily void rg\+\_\+print (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Printer function to display information about {\ttfamily graph} in input. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{RepartitionGraph_8h_a8f90c7380fbc55e9d7d520db191e1cdf}\label{RepartitionGraph_8h_a8f90c7380fbc55e9d7d520db191e1cdf}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_print\_partition@{rg\_print\_partition}}
+\index{rg\_print\_partition@{rg\_print\_partition}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_print\_partition()}{rg\_print\_partition()}}
+{\footnotesize\ttfamily void rg\+\_\+print\+\_\+partition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Printer function to display the partition of {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{RepartitionGraph_8h_af46485535bd7ffffe282d3f7a9b0094c}\label{RepartitionGraph_8h_af46485535bd7ffffe282d3f7a9b0094c}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_reinitialize\_partition@{rg\_reinitialize\_partition}}
+\index{rg\_reinitialize\_partition@{rg\_reinitialize\_partition}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_reinitialize\_partition()}{rg\_reinitialize\_partition()}}
+{\footnotesize\ttfamily void rg\+\_\+reinitialize\+\_\+partition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph }\end{DoxyParamCaption})}
+
+
+
+Reinitializes all nodes of {\ttfamily graph} to be held by dummy player -\/1. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{RepartitionGraph_8h_ac32d86264977cff4f777c0beb9aac7d5}\label{RepartitionGraph_8h_ac32d86264977cff4f777c0beb9aac7d5}} 
+\index{RepartitionGraph.h@{RepartitionGraph.h}!rg\_set\_player\_of\_node\_partition@{rg\_set\_player\_of\_node\_partition}}
+\index{rg\_set\_player\_of\_node\_partition@{rg\_set\_player\_of\_node\_partition}!RepartitionGraph.h@{RepartitionGraph.h}}
+\doxysubsubsection{\texorpdfstring{rg\_set\_player\_of\_node\_partition()}{rg\_set\_player\_of\_node\_partition()}}
+{\footnotesize\ttfamily void rg\+\_\+set\+\_\+player\+\_\+of\+\_\+node\+\_\+partition (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{RepartitionGraph_8h_a5404025618d67d15e65887f0d3f4083e}{Repartition\+Graph}}}]{graph,  }\item[{int}]{node,  }\item[{int}]{player }\end{DoxyParamCaption})}
+
+
+
+Sets {\ttfamily player} as the owner of {\ttfamily node} in {\ttfamily graph}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em graph} & A Repartition\+Graph. \\
+\hline
+{\em node} & A node. \\
+\hline
+{\em player} & A player. \\
+\hline
+\end{DoxyParams}
