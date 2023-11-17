@@ -1,4 +1,4 @@
-#include "RepartitionResolution.h"
+#include "RepartitionGraph.h"
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -27,7 +27,16 @@ bool dfs_recursive(RepartitionGraph graph, int node, bool *visited, int *Vi)
 bool estConnexe(RepartitionGraph graph, int *Vi)
 {
     int num_nodes = rg_get_num_nodes(graph);
+
+    if (num_nodes <= 0) {
+        return false; // Handle the case of an empty graph
+    }
+
     bool *visited = (bool *)malloc(num_nodes * sizeof(bool));
+    
+    if (visited == NULL) {
+        return false; // Allocation failed
+    }
 
     for (int i = 0; i < num_nodes; i++)
     {
@@ -46,19 +55,29 @@ bool estConnexe(RepartitionGraph graph, int *Vi)
             return false;
         }
     }
+
     free(visited);
     return true;
 }
+
 bool estAllocationEquitable(RepartitionGraph graph, int k, int *P, int **allocation)
 {
+    if (k <= 0 || P == NULL || allocation == NULL) {
+        return false; // Handle invalid input
+    }
+
     int *sommeValeursParticipants = (int *)malloc(k * sizeof(int));
 
-    for (int i = 0; i < k; i++)
+    if (sommeValeursParticipants == NULL) {
+        return false; // Allocation failed
+    }
+
+   for (int i = 0; i < k; i++)
     {
         sommeValeursParticipants[i] = 0;
         for (int j = 0; allocation[i][j] != -1; j++)
         {
-            sommeValeursParticipants[i] += P[allocation[i][j]];
+            sommeValeursParticipants[i] += rg_get_weight(graph, allocation[i][j], i);
         }
     }
 
@@ -81,7 +100,16 @@ bool estAllocationEquitable(RepartitionGraph graph, int k, int *P, int **allocat
 bool checkValidPartition(RepartitionGraph graph, int *Vi)
 {
     int k = rg_get_num_players(graph);
+
+    if (k <= 0) {
+        return false; // Handle the case of an invalid number of players
+    }
+
     int *P = (int *)malloc(k * sizeof(int));
+
+    if (P == NULL) {
+        return false; // Allocation failed
+    }
 
     for (int i = 0; i < k; i++)
     {
@@ -98,7 +126,7 @@ bool checkValidPartition(RepartitionGraph graph, int *Vi)
 // Helper function for repartition_brute_force
 bool generatePartitions(RepartitionGraph graph, int node, int *Vi)
 {
-    if (node == rg_get_num_nodes(graph))
+    if (node >= rg_get_num_nodes(graph))
     {
         return checkValidPartition(graph, Vi);
     }
@@ -111,33 +139,32 @@ bool generatePartitions(RepartitionGraph graph, int node, int *Vi)
             return true;
         }
     }
-
     return false;
 }
 
 bool repartition_brute_force(RepartitionGraph graph)
 {
-    /*À remplacer par votre implémentation du brute-force.
-   Cette fonction doit probablement simplement appeler une fonction récursive construisant pas à pas une partition, puis appelant un vérificateur sur chaque partition complète.
-   Votre vérificateur devrait être séparé de cette fonction récursive (sauf si vous faites des vérifications sur des partitions partielles, mais cela me semble peu adéquat ici). Votre vérificateur devant vérifier deux propriétés différentes, il vous est conseillé de faire une fonction pour chacune de ces propriétés.
-   Les fonctions de RepartitionGraph.h utilisées dans notre solution de cette résolution sont les suivantes :
-   rg_get_num_nodes, rg_get_num_players, rg_is_edge, rg_get_player_of_node_in_partition, rg_set_player_of_node_partition.
-   Si vous sentez le besoin de fonctions qui ne sont pas dans cette liste, vous êtes potentiellement en train de vous planter (rg_reset_partition pouvant cependant être utile, mais on peut faire sans).
-   Notre implémentation (sans ce bloc de commentaire), porte ce fichier à 94 lignes. Cette valeur n’est évidemment qu’une indication, mais si vous dépassez les 300 lignes, il est probable que vous vous compliquiez la vie.
-   */
     int num_nodes = rg_get_num_nodes(graph);
+
+    if (num_nodes <= 0) {
+        return false; // Handle the case of an empty graph
+    }
+
     int *Vi = (int *)malloc(num_nodes * sizeof(int));
+
+    if (Vi == NULL) {
+        return false; // Allocation failed
+    }
 
     if (generatePartitions(graph, 0, Vi))
     {
         printf("Brute Force: Found a valid partition.\n");
-        free(Vi);
-        return true;
     }
     else
     {
         printf("Brute Force: No valid partition found.\n");
-        free(Vi);
-        return false;
     }
+
+    free(Vi);
+    return true;
 }
