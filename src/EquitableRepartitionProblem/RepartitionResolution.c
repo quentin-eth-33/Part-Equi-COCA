@@ -2,55 +2,55 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-bool dfs_recursive(RepartitionGraph graph, int node, bool *visited, int *Vi);
 
-bool dfs(RepartitionGraph graph, int node, bool *visited, int *Vi)
-{
-    return dfs_recursive(graph, node, visited, Vi);
-}
+typedef struct {
+    int num_players;
+    int num_nodes;
+    int **allocationMatrix; // Matrix to store allocation information
+} Allocation;
 
-bool dfs_recursive(RepartitionGraph graph, int node, bool *visited, int *Vi)
-{
+void dfs_check_connectivity(RepartitionGraph graph, int node, int player, bool *visited) {
     visited[node] = true;
 
-    for (int i = 0; i < rg_get_num_nodes(graph); i++)
-    {
-        if (rg_is_edge(graph, node, i) && !visited[i] && rg_get_player_of_node_in_partition(graph, i) == Vi[node])
-        {
-            dfs_recursive(graph, i, visited, Vi);
+    int num_nodes = rg_get_num_nodes(graph);
+    for (int i = 0; i < num_nodes; ++i) {
+        if (rg_is_edge(graph, node, i) && rg_get_player_of_node_in_partition(graph, i) == player && !visited[i]) {
+            dfs_check_connectivity(graph, i, player, visited);
         }
     }
-
-    return true;
 }
 
-bool estConnexe(RepartitionGraph graph, int *Vi)
-{
-    int num_nodes = rg_get_num_nodes(graph);
+// Vérifie si un sous-graphe (Vi, E) est connexe pour un joueur donné
+bool is_partition_connected(RepartitionGraph graph, Allocation allocation, int player) {
+    int num_nodes = allocation.num_nodes;
+    bool *visited = malloc(num_nodes * sizeof(bool));
 
-    if (num_nodes <= 0) {
-        return false; // Handle the case of an empty graph
-    }
-
-    bool *visited = (bool *)malloc(num_nodes * sizeof(bool));
-    
-    if (visited == NULL) {
-        return false; // Allocation failed
-    }
-
-    for (int i = 0; i < num_nodes; i++)
-    {
+    // Initialise le tableau visited à false
+    for (int i = 0; i < num_nodes; ++i) {
         visited[i] = false;
     }
 
-    int start_node = Vi[0];
+    // Trouve le premier nœud attribué au joueur courant
+    int start_node = -1;
+    for (int i = 0; i < num_nodes; ++i) {
+        if (allocation.allocationMatrix[player - 1][i] == 1) {
+            start_node = i;
+            break;
+        }
+    }
 
-    dfs(graph, start_node, visited, Vi);
+    // Si aucun nœud n'est attribué au joueur, le sous-graphe est connecté par défaut
+    if (start_node == -1) {
+        free(visited);
+        return true;
+    }
 
-    for (int i = 0; i < num_nodes; i++)
-    {
-        if (Vi[i] == Vi[start_node] && !visited[i])
-        {
+    // Effectue une recherche en profondeur (DFS) pour vérifier la connectivité
+    dfs_check_connectivity(graph, start_node, player, visited);
+
+    // Vérifie si tous les nœuds attribués au joueur sont visités
+    for (int i = 0; i < num_nodes; ++i) {
+        if (allocation.allocationMatrix[player - 1][i] == 1 && !visited[i]) {
             free(visited);
             return false;
         }
@@ -60,111 +60,112 @@ bool estConnexe(RepartitionGraph graph, int *Vi)
     return true;
 }
 
-bool estAllocationEquitable(RepartitionGraph graph, int k, int *P, int **allocation)
-{
-    if (k <= 0 || P == NULL || allocation == NULL) {
-        return false; // Handle invalid input
-    }
+// Fonction pour vérifier si une allocation est valide
+bool is_valid_allocation(RepartitionGraph graph, Allocation allocation) {
+    int num_players = allocation.num_players;
 
-    int *sommeValeursParticipants = (int *)malloc(k * sizeof(int));
-
-    if (sommeValeursParticipants == NULL) {
-        return false; // Allocation failed
-    }
-
-   for (int i = 0; i < k; i++)
-    {
-        sommeValeursParticipants[i] = 0;
-        for (int j = 0; allocation[i][j] != -1; j++)
-        {
-            sommeValeursParticipants[i] += rg_get_weight(graph, allocation[i][j], i);
-        }
-    }
-
-    int sommeTotale = rg_get_total_weights(graph);
-    int fraction = sommeTotale / k;
-
-    for (int i = 0; i < k; i++)
-    {
-        if (sommeValeursParticipants[i] < fraction)
-        {
-            free(sommeValeursParticipants);
+    // Vérifie la connexité pour chaque joueur
+    for (int player = 1; player <= num_players; ++player) {
+        if (!is_partition_connected(graph, allocation, player)) {
             return false;
         }
     }
 
-    free(sommeValeursParticipants);
     return true;
 }
 
-bool checkValidPartition(RepartitionGraph graph, int *Vi)
-{
-    int k = rg_get_num_players(graph);
+void print_allocation(Allocation allocation) {
+    printf("Allocation Matrix:\n");
+    for (int i = 0; i < allocation.num_players; ++i) {
+        for (int j = 0; j < allocation.num_nodes; ++j) {
+            printf("%d ", allocation.allocationMatrix[i][j]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
 
-    if (k <= 0) {
-        return false; // Handle the case of an invalid number of players
+bool is_allocation_equitable(RepartitionGraph graph, Allocation allocation) {
+    int num_players = allocation.num_players;
+
+    if (num_players <= 0 || allocation.allocationMatrix == NULL) {
+        return false; // Handle invalid input
     }
 
-    int *P = (int *)malloc(k * sizeof(int));
+    int *sum_values_participants = (int *)malloc(num_players * sizeof(int));
 
-    if (P == NULL) {
+    if (sum_values_participants == NULL) {
         return false; // Allocation failed
     }
 
-    for (int i = 0; i < k; i++)
-    {
-        P[i] = rg_get_total_weights(graph); // Assuming this is how you obtain the weights for each player
+    for (int i = 0; i < num_players; i++) {
+        sum_values_participants[i] = 0;
+        for (int j = 0; j < allocation.num_nodes; j++) {
+            sum_values_participants[i] += rg_get_weight(graph, j, i);
+        }
+        //printf("Valeur Joueur %d: %d \n", i+1,  sum_values_participants[i]);
     }
 
-    bool isValid = estConnexe(graph, Vi) && estAllocationEquitable(graph, k, P, NULL);
+    int total_weight = rg_get_total_weights(graph);
+    int fraction = total_weight / num_players;
 
-    free(P);
-
-    return isValid;
-}
-
-// Helper function for repartition_brute_force
-bool generatePartitions(RepartitionGraph graph, int node, int *Vi)
-{
-    if (node >= rg_get_num_nodes(graph))
-    {
-        return checkValidPartition(graph, Vi);
-    }
-
-    for (int player = 0; player < rg_get_num_players(graph); player++)
-    {
-        Vi[node] = player;
-        if (generatePartitions(graph, node + 1, Vi))
-        {
-            return true;
+    for (int i = 0; i < num_players; i++) {
+        if (sum_values_participants[i] < fraction) {
+            free(sum_values_participants);
+            return false;
         }
     }
-    return false;
+
+    free(sum_values_participants);
+    return true;
+}
+
+void generate_allocations(RepartitionGraph graph, int current_node) {
+    int num_nodes = rg_get_num_nodes(graph);
+    int num_players = rg_get_num_players(graph);
+
+    if (current_node == num_nodes) {
+        // Allocate memory for the new allocation
+        Allocation newAllocation;
+        newAllocation.num_players = num_players;
+        newAllocation.num_nodes = num_nodes;
+        newAllocation.allocationMatrix = malloc(num_players * sizeof(int *));
+        for (int i = 0; i < num_players; ++i) {
+            newAllocation.allocationMatrix[i] = malloc(num_nodes * sizeof(int));
+        }
+
+        // Fill the allocation matrix
+        for (int player = 1; player <= num_players; ++player) {
+            for (int node = 0; node < num_nodes; ++node) {
+                newAllocation.allocationMatrix[player - 1][node] = rg_get_player_of_node_in_partition(graph, node) == player;
+            }
+        }
+
+        //print_allocation(newAllocation);
+        //is_allocation_equitable(graph, newAllocation);
+        if(is_valid_allocation(graph, newAllocation) && is_allocation_equitable(graph, newAllocation)){
+            print_allocation(newAllocation);
+            printf("Est Connexe: %d \n", is_valid_allocation(graph, newAllocation));
+            printf("Est Equitable: %d \n", is_allocation_equitable(graph, newAllocation));
+        }
+        return;
+    }
+
+    // Try assigning the current node to each player
+    for (int player = 1; player <= num_players; ++player) {
+        // Assign the current node to the current player
+        rg_set_player_of_node_partition(graph, current_node, player);
+
+        // Recursively generate allocations for the next node
+        generate_allocations(graph, current_node + 1);
+
+        // Unassign the current node (backtrack)
+        rg_set_player_of_node_partition(graph, current_node, 0);
+    }
 }
 
 bool repartition_brute_force(RepartitionGraph graph)
 {
-    int num_nodes = rg_get_num_nodes(graph);
-
-    if (num_nodes <= 0) {
-        return false; // Handle the case of an empty graph
-    }
-
-    int *Vi = (int *)malloc(num_nodes * sizeof(int));
-
-    if (Vi == NULL) {
-        return false; // Allocation failed
-    }
-
-    if (generatePartitions(graph, 0, Vi))
-    {
-        printf("Brute Force: Found a valid partition.\n");
-    }
-    else
-    {
-        printf("Brute Force: No valid partition found.\n");
-    }
-
-    free(Vi);
+    generate_allocations(graph, 0);
     return true;
 }
