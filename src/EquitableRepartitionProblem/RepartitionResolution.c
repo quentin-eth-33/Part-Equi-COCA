@@ -73,31 +73,36 @@ bool isPartitionFair(RepartitionGraph graph, int *allocation, int playerIndex) {
 void generateAllocations(RepartitionGraph graph, int *allocation, int nodeIndex) {
     int numNodes = rg_get_num_nodes(graph);
     int numPlayers = rg_get_num_players(graph);
+    bool isValid = true;
 
     if (nodeIndex == numNodes) {
-        printf("Current allocation:\n");
+        //printf("Current allocation:\n");
         for (int i = 0; i < numNodes; i++) {
-            printf("Node %s in partition of Player %d\n", rg_get_node_name(graph, i), allocation[i]);
+            //printf("Node %s in partition of Player %d\n", rg_get_node_name(graph, i), allocation[i]);
         }
-        printf("\n");
+        //printf("\n");
+        
         for (int i = 0; i < numPlayers; i++) {
-            if (isPartitionConnected(graph, allocation, i)) {
-                printf("Partition of Player %d is connected.\n", i);
-            } else {
-                printf("Partition of Player %d is not connected.\n", i);
+            if (!isPartitionConnected(graph, allocation, i)) {
+                //printf("Une Partition n'est pas connexe\n");
+                isValid = false;
+                break;
             }
         }
 
-        for (int i = 0; i < numPlayers; i++) {
-            if (isPartitionFair(graph, allocation, i)) {
-                printf("Partition of Player %d is fair.\n", i);
-            } else {
-                printf("Partition of Player %d is not fair.\n", i);
+        if(isValid){
+            for (int i = 0; i < numPlayers; i++) {
+                if (!isPartitionFair(graph, allocation, i)) {
+                    //printf("Une Partition n'est pas équitable\n");
+                    isValid = false;
+                    break;
+                }
             }
         }
 
-        printf("\n");
-        printf("\n");
+        if(isValid){
+            printf("IL Y A UNE SOLUTION!!!!!!!!!!!!! \n");
+        }
         return;
     }
 
