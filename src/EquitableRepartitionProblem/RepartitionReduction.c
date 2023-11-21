@@ -56,6 +56,7 @@ Z3_ast variable_count(Z3_context ctx, int node, int position, int player)
     return mk_bool_var(ctx, name);
 }
 
+/*
 Z3_ast disjunction_for_node(Z3_context ctx, int node, int num_players)
 {
     Z3_ast player_clauses[num_players];
@@ -98,7 +99,7 @@ Z3_ast conjunction_for_node(Z3_context ctx, int node, int num_players)
     return conjunction;
 }
 
-Z3_ast formula_for_constraints(Z3_context ctx, int num_nodes, int num_players)
+Z3_ast isPartition(Z3_context ctx, int num_nodes, int num_players)
 {
     Z3_ast clauses[num_nodes];
     for (int node = 0; node < num_nodes; ++node)
@@ -116,16 +117,79 @@ Z3_ast formula_for_constraints(Z3_context ctx, int num_nodes, int num_players)
 
     char *formula_str = (char *)Z3_ast_to_string(ctx, result); // Ajoutez le cast pour supprimer le const
     printf("Generated Formula:\n%s\n", formula_str);
-    free(formula_str);
 
     return result;
 }
 
+Z3_ast not_same_sequence_positions(Z3_context ctx, int player, int node, int position1, int position2)
+{
+    Z3_ast tab[2];
+    tab[0] = variable_count(ctx, node, position1, player);
+    tab[1] = variable_count(ctx, node, position2, player);
+    Z3_ast formAnd = Z3_mk_and(ctx, 2, tab);
+    Z3_ast not_both_positions = Z3_mk_not(ctx, formAnd);
+    return not_both_positions;
+}
+
+Z3_ast generate_not_same_sequence_positions_formula(Z3_context ctx, int num_players, int num_nodes, int C)
+{
+    Z3_ast *clauses = (Z3_ast *)malloc(num_players * num_nodes * C * (C - 1) / 2 * sizeof(Z3_ast));
+
+    int clause_index = 0;
+    for (int player = 0; player < num_players; ++player)
+    {
+        for (int node = 0; node < num_nodes; ++node)
+        {
+            for (int pos1 = 1; pos1 <= C; ++pos1)
+            {
+                for (int pos2 = pos1 + 1; pos2 <= C; ++pos2)
+                {
+                    Z3_ast not_same_positions = not_same_sequence_positions(ctx, player, node, pos1, pos2);
+                    clauses[clause_index++] = not_same_positions;
+                }
+            }
+        }
+    }
+
+    Z3_ast formula = Z3_mk_and(ctx, clause_index, clauses);
+
+    free(clauses);
+
+    return formula;
+}
+Z3_ast generate_vertex_cover_formula(Z3_context ctx, int num_players, int num_nodes, int C)
+{
+    Z3_ast *clauses = (Z3_ast *)malloc(C * num_players * sizeof(Z3_ast));
+
+    int clause_index = 0;
+    for (int player = 0; player < num_players; ++player)
+    {
+        for (int pos = 1; pos <= C; ++pos)
+        {
+            Z3_ast vertex_cover_clause = Z3_mk_false(ctx);
+
+            for (int node = 0; node < num_nodes; ++node)
+            {
+                Z3_ast is_s_th_vertex = variable_count(ctx, node, pos, player);
+                vertex_cover_clause = Z3_mk_or(ctx, 2, &vertex_cover_clause, &is_s_th_vertex);
+            }
+
+            clauses[clause_index++] = vertex_cover_clause;
+        }
+    }
+
+    Z3_ast formula = Z3_mk_and(ctx, clause_index, clauses);
+
+    free(clauses);
+
+    return formula;
+}
+*/
 Z3_ast repartition_reduction(Z3_context ctx, const RepartitionGraph graph)
 {
     printf("Reduction not implemented\n");
 
-    formula_for_constraints(ctx, rg_get_num_nodes(graph), rg_get_num_players(graph));
+    // isPartition(ctx, rg_get_num_nodes(graph), rg_get_num_players(graph));
     return Z3_mk_false(ctx);
     /*À remplacer par votre implémentation.
     La fonction doit renvoyer une formule de la logique propositionnelle qui encode l’existence d’une partition connexe équitable.

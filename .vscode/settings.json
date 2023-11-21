@@ -10,6 +10,7 @@
         "z3tools.h": "c",
         "stdbool.h": "c",
         "z3.h": "c",
-        "z3_algebraic.h": "c"
+        "z3_algebraic.h": "c",
+        "__node_handle": "c"
     }
 }
