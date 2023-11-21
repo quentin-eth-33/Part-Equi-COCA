@@ -1,0 +1,31 @@
+graph default_Sat{
+A[style=filled,fillcolor="#30abbd"];
+B[style=filled,fillcolor="#30abbd"];
+C[style=filled,fillcolor="#396e5d"];
+D[style=filled,fillcolor="#ec13d2"];
+E[style=filled,fillcolor="#30abbd"];
+F[style=filled,fillcolor="#396e5d"];
+G[style=filled,fillcolor="#ec13d2"];
+H[style=filled,fillcolor="#30abbd"];
+I[style=filled,fillcolor="#ec13d2"];
+A[xlabel="1,1,0"];
+B[xlabel="1,0,1"];
+C[xlabel="0,1,1"];
+D[xlabel="1,0,0"];
+E[xlabel="0,1,0"];
+F[xlabel="0,0,1"];
+G[xlabel="1,1,0"];
+H[xlabel="1,0,1"];
+I[xlabel="0,1,1"];
+B -- A;
+C -- B;
+D -- A;
+E -- B;
+E -- D;
+F -- C;
+G -- A;
+H -- E;
+I -- D;
+I -- F;
+I -- G;
+}

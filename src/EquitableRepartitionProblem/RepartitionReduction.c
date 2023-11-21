@@ -56,10 +56,76 @@ Z3_ast variable_count(Z3_context ctx, int node, int position, int player)
     return mk_bool_var(ctx, name);
 }
 
+Z3_ast disjunction_for_node(Z3_context ctx, int node, int num_players)
+{
+    Z3_ast player_clauses[num_players];
+
+    for (int player = 0; player < num_players; ++player)
+    {
+        player_clauses[player] = variable_node_associated_to_player(ctx, node, player);
+    }
+
+    Z3_ast disjunction = Z3_mk_or(ctx, num_players, player_clauses);
+
+    return disjunction;
+}
+
+Z3_ast conjunction_for_node(Z3_context ctx, int node, int num_players)
+{
+    Z3_ast player_clauses[num_players * (num_players - 1)];
+    int clause_index = 0;
+    for (int player1 = 0; player1 < num_players; ++player1)
+    {
+        for (int player2 = 0; player2 < num_players; ++player2)
+        {
+            if (player1 != player2)
+            {
+                Z3_ast p1 = variable_node_associated_to_player(ctx, node, player1);
+                Z3_ast p2 = variable_node_associated_to_player(ctx, node, player2);
+                Z3_ast p1_p2[2];
+                p1_p2[0] = p1;
+                p1_p2[1] = p2;
+
+                Z3_ast both_assigned = Z3_mk_and(ctx, 2, p1_p2);
+
+                Z3_ast not_both_assigned = Z3_mk_not(ctx, both_assigned);
+
+                player_clauses[clause_index++] = not_both_assigned;
+            }
+        }
+    }
+    Z3_ast conjunction = Z3_mk_and(ctx, clause_index, player_clauses);
+    return conjunction;
+}
+
+Z3_ast formula_for_constraints(Z3_context ctx, int num_nodes, int num_players)
+{
+    Z3_ast clauses[num_nodes];
+    for (int node = 0; node < num_nodes; ++node)
+    {
+        Z3_ast disjunction = disjunction_for_node(ctx, node, num_players);
+        Z3_ast conjunction = conjunction_for_node(ctx, node, num_players);
+
+        Z3_ast tab[2];
+        tab[0] = disjunction;
+        tab[1] = conjunction;
+        clauses[node] = Z3_mk_and(ctx, 2, tab);
+    }
+
+    Z3_ast result = Z3_mk_and(ctx, num_nodes, clauses);
+
+    char *formula_str = (char *)Z3_ast_to_string(ctx, result); // Ajoutez le cast pour supprimer le const
+    printf("Generated Formula:\n%s\n", formula_str);
+    free(formula_str);
+
+    return result;
+}
 
 Z3_ast repartition_reduction(Z3_context ctx, const RepartitionGraph graph)
 {
     printf("Reduction not implemented\n");
+
+    formula_for_constraints(ctx, rg_get_num_nodes(graph), rg_get_num_players(graph));
     return Z3_mk_false(ctx);
     /*À remplacer par votre implémentation.
     La fonction doit renvoyer une formule de la logique propositionnelle qui encode l’existence d’une partition connexe équitable.

@@ -57,6 +57,7 @@ bool isPartitionConnected(RepartitionGraph graph, int *allocation, int playerInd
 
     return true;
 }
+
 bool isPartitionFair(RepartitionGraph graph, int *allocation, int playerIndex) {
     int numNodes = rg_get_num_nodes(graph);
     int numPlayers = rg_get_num_players(graph);

@@ -5,6 +5,11 @@
         "repartitionresolution.h": "c",
         "time.h": "c",
         "stdlib.h": "c",
-        "types.h": "c"
+        "types.h": "c",
+        "repartitionreduction.h": "c",
+        "z3tools.h": "c",
+        "stdbool.h": "c",
+        "z3.h": "c",
+        "z3_algebraic.h": "c"
     }
 }
