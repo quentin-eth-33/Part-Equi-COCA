@@ -56,7 +56,9 @@ Z3_ast variable_count(Z3_context ctx, int node, int position, int player)
     return mk_bool_var(ctx, name);
 }
 
-/*
+// -------------------------------- DEBUT EST PARTITION --------------------------------
+
+// 5.1.2
 Z3_ast disjunction_for_node(Z3_context ctx, int node, int num_players)
 {
     Z3_ast player_clauses[num_players];
@@ -71,6 +73,7 @@ Z3_ast disjunction_for_node(Z3_context ctx, int node, int num_players)
     return disjunction;
 }
 
+// 5.1.3
 Z3_ast conjunction_for_node(Z3_context ctx, int node, int num_players)
 {
     Z3_ast player_clauses[num_players * (num_players - 1)];
@@ -99,6 +102,7 @@ Z3_ast conjunction_for_node(Z3_context ctx, int node, int num_players)
     return conjunction;
 }
 
+// 5.1.4
 Z3_ast isPartition(Z3_context ctx, int num_nodes, int num_players)
 {
     Z3_ast clauses[num_nodes];
@@ -114,50 +118,90 @@ Z3_ast isPartition(Z3_context ctx, int num_nodes, int num_players)
     }
 
     Z3_ast result = Z3_mk_and(ctx, num_nodes, clauses);
-
-    char *formula_str = (char *)Z3_ast_to_string(ctx, result); // Ajoutez le cast pour supprimer le const
-    printf("Generated Formula:\n%s\n", formula_str);
-
     return result;
 }
+// -------------------------------- FIN EST PARTITION --------------------------------
 
-Z3_ast not_same_sequence_positions(Z3_context ctx, int player, int node, int position1, int position2)
+
+// -------------------------------- DEBUT EST CONNEXE --------------------------------
+
+Z3_ast sommetDiff(Z3_context ctx, int node, int player, int position)
 {
-    Z3_ast tab[2];
-    tab[0] = variable_count(ctx, node, position1, player);
-    tab[1] = variable_count(ctx, node, position2, player);
-    Z3_ast formAnd = Z3_mk_and(ctx, 2, tab);
-    Z3_ast not_both_positions = Z3_mk_not(ctx, formAnd);
-    return not_both_positions;
+    char name[50];
+    snprintf(name, 50, "V[%d:%d:%d]", node, player, position);
+    return mk_bool_var(ctx, name);
 }
 
-Z3_ast generate_not_same_sequence_positions_formula(Z3_context ctx, int num_players, int num_nodes, int C)
+// 5.2.2
+Z3_ast pasMemePosition(Z3_context ctx, int num_players, int num_nodes, int C)
 {
-    Z3_ast *clauses = (Z3_ast *)malloc(num_players * num_nodes * C * (C - 1) / 2 * sizeof(Z3_ast));
+    Z3_ast* clauses = (Z3_ast*)malloc(num_nodes * sizeof(Z3_ast));
 
     int clause_index = 0;
-    for (int player = 0; player < num_players; ++player)
+
+    for (int j = 0; j < num_players; ++j)
     {
-        for (int node = 0; node < num_nodes; ++node)
+        for (int s = 1; s <= C; ++s)
         {
-            for (int pos1 = 1; pos1 <= C; ++pos1)
+            for (int s_prime = s + 1; s_prime <= C; ++s_prime)
             {
-                for (int pos2 = pos1 + 1; pos2 <= C; ++pos2)
+                for (int i = 0; i < num_nodes; ++i)
                 {
-                    Z3_ast not_same_positions = not_same_sequence_positions(ctx, player, node, pos1, pos2);
-                    clauses[clause_index++] = not_same_positions;
+                    clauses[clause_index++] = Z3_mk_not(ctx,
+                        Z3_mk_and(ctx, 2, (Z3_ast[]){
+                                            Z3_mk_eq(ctx, sommetDiff(ctx, i, j, s), Z3_mk_true(ctx)),
+                                            Z3_mk_eq(ctx, sommetDiff(ctx, i, j, s_prime), Z3_mk_true(ctx))}));
                 }
             }
         }
     }
 
-    Z3_ast formula = Z3_mk_and(ctx, clause_index, clauses);
+    Z3_ast result = Z3_mk_and(ctx, clause_index, clauses);
 
     free(clauses);
 
-    return formula;
+    return result;
 }
-Z3_ast generate_vertex_cover_formula(Z3_context ctx, int num_players, int num_nodes, int C)
+
+// 5.2.3
+Z3_ast auMoinsUnSommetParPosition(Z3_context ctx, int num_players, int num_nodes, int C)
+{
+    Z3_ast* disjunctions = (Z3_ast*)malloc(num_nodes * sizeof(Z3_ast));
+
+    int disjunction_index = 0;
+
+    for (int j = 0; j < num_players; ++j)
+    {
+        for (int s = 1; s <= C; ++s)
+        {
+            Z3_ast* conjunctions = (Z3_ast*)malloc(num_nodes * sizeof(Z3_ast));
+
+            int conjunction_index = 0;
+
+            for (int i = 0; i < num_nodes; ++i)
+            {
+                conjunctions[conjunction_index++] = sommetDiff(ctx, i, j, s);
+            }
+
+            disjunctions[disjunction_index++] = Z3_mk_or(ctx, conjunction_index, conjunctions);
+
+            free(conjunctions);
+        }
+    }
+
+    Z3_ast result = Z3_mk_and(ctx, disjunction_index, disjunctions);
+
+    free(disjunctions);
+
+    return result;
+}
+
+// -------------------------------- FIN EST CONNEXE --------------------------------
+
+// ---------------------- DEBUT EST EQUITABLE -------------------------------------------
+
+// 5.3.1
+Z3_ast auPlusUnSommet(Z3_context ctx, int num_players, int num_nodes, int C)
 {
     Z3_ast *clauses = (Z3_ast *)malloc(C * num_players * sizeof(Z3_ast));
 
@@ -171,7 +215,8 @@ Z3_ast generate_vertex_cover_formula(Z3_context ctx, int num_players, int num_no
             for (int node = 0; node < num_nodes; ++node)
             {
                 Z3_ast is_s_th_vertex = variable_count(ctx, node, pos, player);
-                vertex_cover_clause = Z3_mk_or(ctx, 2, &vertex_cover_clause, &is_s_th_vertex);
+                Z3_ast tab[2] = {vertex_cover_clause, is_s_th_vertex}; 
+                vertex_cover_clause = Z3_mk_or(ctx, 2, tab);
             }
 
             clauses[clause_index++] = vertex_cover_clause;
@@ -184,33 +229,36 @@ Z3_ast generate_vertex_cover_formula(Z3_context ctx, int num_players, int num_no
 
     return formula;
 }
-*/
+
+// 5.3.2
+Z3_ast auMoinsUnSommet(Z3_context ctx, int C, int Vj, int player) {
+    Z3_ast *inner_disjunctions = (Z3_ast *)malloc(C * sizeof(Z3_ast));
+
+    for (int s = 1; s <= C; s++) {
+        Z3_ast *inner_disjunction_args = (Z3_ast *)malloc(Vj * sizeof(Z3_ast));
+
+        for (int i = 0; i < Vj; i++) {
+            inner_disjunction_args[i] = variable_count(ctx, i, s, player);
+        }
+
+        inner_disjunctions[s - 1] = Z3_mk_or(ctx, Vj, inner_disjunction_args);
+
+        free(inner_disjunction_args);
+    }
+
+    Z3_ast result = Z3_mk_and(ctx, C, inner_disjunctions);
+
+    free(inner_disjunctions);
+
+    return result;
+}
+// ---------------------- FIN EST EQUITABLE -------------------------------------------
+
+
 Z3_ast repartition_reduction(Z3_context ctx, const RepartitionGraph graph)
 {
-    printf("Reduction not implemented\n");
-
-    // isPartition(ctx, rg_get_num_nodes(graph), rg_get_num_players(graph));
     return Z3_mk_false(ctx);
-    /*À remplacer par votre implémentation.
-    La fonction doit renvoyer une formule de la logique propositionnelle qui encode l’existence d’une partition connexe équitable.
-    On ne demande pas que la formule produite soit en CNF (Z3 se débrouillera), on recommande d’ailleurs qu’elle ne le soit pas pour être plus lisible.
-    Découpez votre code en petites fonctions auxiliaires générant des formules simples ou connectant des formules venant d’autres fonctions. Basez-vous sur le sujet pour le découpage (encore pour la visibilité et votre confort de débuggage).
-    Faites attention aux tailles dans les fonctions Z3_mk_and et Z3_mk_or (source de bug -- si vous avez des erreurs se plaignant de code qui ne devrait pas être atteint, cela vient probablement de là). Reportez-vous à la documentation <https://z3prover.github.io/api/html/group__capi.html>.
-    Un Z3_ast représente une formule de la logique propositionnel.
-    Vous aurez évidemment besoin de tableaux contenant des Z3_ast.
-    Utilisez les fonctions fournies en tête de ce fichier pour générer les variables propositionnelles nécessaires à votre formule.
-    Dans la réalisation de cette fonction pour la solution du projet, les fonctions de Z3 utilisées sont les suivantes :
-    Z3_mk_and, Z3_mk_or, Z3_mk_implies, Z3_mk_eq, Z3_mk_not
-    La fonction uniqueFormula de Z3Tools.h (du présent projet) a également été utilisée.
-    Les fonctions de RepartitionGraph.h utilisées sont :
-    rg_get_num_nodes, rg_get_num_players, rg_is_edge, rg_get_weight, rg_get_total_weights.
-    Si vous êtes tentés d’utiliser d’autres fonctions que celles listées ci-dessus, vous êtes probablement en train de vous tromper.
-    Pour information, l’implémentation réalisée comme solution porte ce fichier à 180 lignes -- sans ce bloc de commentaires (ce qui est totalement indicatif, mais si vous obtenez 400 lignes, vous êtes potentiellement en train de vous compliquer la vie pour rien).
 
-    Procédez par étape, tranquillement, en compilant régulièrement, et regardez les formules générées grâce à l’option -F du programme principal (en les renvoyant dans cette présente fonction).
-
-    Le reste du fichier vous est fourni : les fonctions en haut du fichier sont celles qui génèrent les variables nécessaires. Celle suivantes permettent de décoder et d’afficher une valuation obtenue à partir d’une formule satisfaite. La résolution de la formule est effectuée dans la fonction main (main.c), vous n’avez pas à le faire.
-    */
 }
 
 void repartition_set_partition_from_model(Z3_context ctx, Z3_model model, RepartitionGraph graph)
